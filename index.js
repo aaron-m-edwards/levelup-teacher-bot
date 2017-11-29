@@ -10,7 +10,7 @@ controller.configureSlackApp({
   scopes: ['incoming-webhook','team:read','users:read','channels:read','im:read','im:write','groups:read','emoji:read','chat:write:bot']
 });
 
-controller.setupWebserver(process.env.port,function(err,webserver) {
+controller.setupWebserver(process.env.PORT,function(err,webserver) {
   controller.createHomepageEndpoint(controller.webserver)
     .createOauthEndpoints(controller.webserver,function(err,req,res) {
       controller.createOauthEndpoints(controller.webserver, function(err, req, res) {
