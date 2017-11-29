@@ -7,19 +7,18 @@ controller.configureSlackApp({
   clientId: process.env.clientId,
   clientSecret: process.env.clientSecret,
   rtm_receive_messages: false,
+  redirectUri: 'https://levelup-slack-teacher.herokuapp.com/oauth',
   scopes: ['incoming-webhook','team:read','users:read','channels:read','im:read','im:write','groups:read','emoji:read','chat:write:bot']
 });
 
 controller.setupWebserver(process.env.PORT,function(err,webserver) {
   controller.createHomepageEndpoint(controller.webserver)
-    .createOauthEndpoints(controller.webserver,function(err,req,res) {
-      controller.createOauthEndpoints(controller.webserver, function(err, req, res) {
-        if (err) {
-            res.status(500).send('ERROR: ' + err);
-        } else {
-            res.send('Success!');
-        }
-      })
+    .createOauthEndpoints(controller.webserver, function(err, req, res) {
+      if (err) {
+        res.status(500).send('ERROR: ' + err);
+      } else {
+        res.send('Success!');
+      }
     })
     .createWebhookEndpoints(controller.webserver);
   controller.startTicking();
