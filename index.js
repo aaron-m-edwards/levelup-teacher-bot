@@ -1,7 +1,11 @@
 const Botkit = require('botkit');
 const oauthRegistration = require('./oauthRegistration');
 
-const controller = Botkit.slackbot();
+const botkitRedis = require('botkit-storage-redis');
+const redisStorage = botkitRedis({url: process.env.REDISTOGO_URL});
+const controller = Botkit.slackbot({
+  storage: redisStorage
+});
 
 controller.configureSlackApp({
   clientId: process.env.clientId,
