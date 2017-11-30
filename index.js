@@ -1,6 +1,9 @@
 const createSlackBot = require('./createSlackBot');
 const createConsoleBot = require('./createConsoleBot');
+
 const botkitRedis = require('botkit-storage-redis');
+const bot = require('./src/bot');
+
 
 let controller;
 if(process.env.PORT) {
@@ -16,6 +19,7 @@ if(process.env.PORT) {
   controller = createConsoleBot();
 }
 
+
 controller.storage.teams.all((err, teams) => {
   for (var t in teams) {
     if (teams[t].bot) {
@@ -24,7 +28,5 @@ controller.storage.teams.all((err, teams) => {
   }
 });
 
-controller.hears(['hi', 'hello'], 'direct_message', function (bot, message) {
-  bot.reply(message, `Hello There`);
-});
 
+bot(controller);

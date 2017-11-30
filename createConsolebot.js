@@ -9,5 +9,10 @@ module.exports = () => {
     next();
   })
   const bot = controller.spawn();
+  bot.api = {
+    users: {
+      info: ({user}, cb) => { cb({user: { name: "User" }})}, 
+    }
+  }
   return controller;
 }
