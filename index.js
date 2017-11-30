@@ -1,5 +1,5 @@
 const createSlackBot = require('./createSlackBot');
-const createConsoleBot = require('./createConsoleBot');
+const createConsoleBot = require('./createConsolebot');
 
 const botkitRedis = require('botkit-storage-redis');
 const bot = require('./src/bot');
@@ -10,7 +10,7 @@ if(process.env.PORT) {
   const redisStorage = botkitRedis({url: process.env.REDISTOGO_URL});
   controller = createSlackBot(
     process.env.clientId, 
-    process.env.cleintSecret, 
+    process.env.clientSecret, 
     process.env.PORT,
     "https://levelup-slack-teacher.herokuapp.com",
     redisStorage,
