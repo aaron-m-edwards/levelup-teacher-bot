@@ -12,7 +12,7 @@ if(process.env.PORT) {
     process.env.clientId, 
     process.env.clientSecret, 
     process.env.PORT,
-    "https://levelup-slack-teacher.herokuapp.com",
+    "https://levelup-slack-teacher.herokuapp.com/oauth",
     redisStorage,
   );
 } else {
