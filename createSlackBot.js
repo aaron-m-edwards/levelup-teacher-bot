@@ -10,7 +10,7 @@ function createSlackBot(clientId, clientSecret, port, redirectUri, storage) {
     clientSecret,
     rtm_receive_messages: false,
     redirectUri,
-    scopes: ['bot']
+    scopes: ['bot', 'im:history', 'im:read']
   });
 
   
