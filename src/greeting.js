@@ -5,8 +5,11 @@ module.exports = function(controller) {
   controller.hears(['hi', 'hello'], 'direct_message', function (bot, message) {
     controller.storage.users.get(message.user, function(err, userData){
       if(userData && userData.data && userData.data.name) {
-        bot.reply(message, `Hello there ${userData.data.name}`)
-        mathQuiz(mathGenerator)(controller, bot, message)
+        bot.startConversation(message, function(err, convo) {
+          convo.say(`Hello there ${userData.data.name}`)
+          convo.next();
+          mathQuiz(mathGenerator)(controller, bot, convo)
+        });
       } else {
         bot.startConversation(message, function(err, convo) {
           convo.addQuestion('Hello there, what is your name?', function(response, convo) {
@@ -25,7 +28,7 @@ module.exports = function(controller) {
               } else {
                 convo.next();
               }
-              mathQuiz(mathGenerator)(controller, bot, message)
+              mathQuiz(mathGenerator)(controller, bot, convo)
             });
             convo.next();
           });

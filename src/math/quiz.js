@@ -1,13 +1,11 @@
 module.exports = function(quizGenerator) {
-  return function(controller, bot, message) {
-    bot.startConversation(message, function(err, convo) {
-      const quiz = quizGenerator.generate(5);
+  return function(controller, bot, convo) {
+    const quiz = quizGenerator.generate(5);
 
-      convo.say('Let\'s start a math quiz');
-      convo.next();
+    convo.say('Let\'s start a math quiz');
+    convo.next();
 
-      askQuestion(convo, 0, quiz);
-    })
+    askQuestion(convo, 0, quiz);
   }
 }
 

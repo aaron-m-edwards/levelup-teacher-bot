@@ -2,9 +2,11 @@
 const testBot = require('../../test-functions');
 const quiz = require('./quiz');
 
-function setUpConvo(controller, convo) {
+function setUpConvo(controller, bot, convo) {
   controller.hears(['start'], 'direct_message', (bot, message) => {
-    convo(controller, bot, message);
+    bot.startConversation(message, function(err, c) {
+      convo(controller, bot, c);
+    });
   })
 }
 
@@ -22,7 +24,7 @@ describe("math quiz", () => {
         }]
       }
     }
-    setUpConvo(controller, quiz(quizGenerator));
+    setUpConvo(controller, bot, quiz(quizGenerator));
     bot = testBot.spawnBot(controller);
   })
   afterEach(() => testBot.shutdown(bot));
