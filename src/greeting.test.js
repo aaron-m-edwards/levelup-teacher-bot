@@ -26,6 +26,35 @@ describe("greeting functions", () => {
           expect(message.text).to.contain(name);
         })
     });
+
+    it('should ask if user is a teacher', () => {
+      return testBot.sendMessage(bot, 'hi')
+        .then(() => testBot.sendMessage(bot, "name"))
+        .then(message => {
+          expect(message.text).to.contain("Are you a student or teacher?");
+        })
+    })
+
+    it('should assume user is not a teacher', () => {
+      const name = 'a user'
+      return testBot.sendMessage(bot, 'hi')
+        .then(() => testBot.sendMessage(bot, name))
+        .then(() => testBot.getUserState(controller))
+        .then(userState => {
+          expect(userState.data.isTeacher).to.be.false;
+        })
+    })
+
+    it('should save type of user', () => {
+      const name = 'a user'
+      return testBot.sendMessage(bot, 'hi')
+        .then(() => testBot.sendMessage(bot, name))
+        .then(() => testBot.sendMessage(bot, 'teacher'))
+        .then(() => testBot.getUserState(controller))
+        .then(userState => {
+          expect(userState.data.isTeacher).to.be.true;
+        })
+    })
   })
 
   describe('for a returning user', () => {

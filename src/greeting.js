@@ -7,8 +7,20 @@ module.exports = function(controller) {
         bot.startConversation(message, function(err, convo) {
           convo.addQuestion('Hello there, what is your name?', function(response, convo) {
             const name = response.text;
-            controller.storage.users.save({id: message.user, data: { ...userData, name } }, ()=>{});
-            convo.say(`Awesome, I will call you ${name}`);
+            const newState = { 
+              ...userData, 
+              name,
+              isTeacher: false,
+            };
+            controller.storage.users.save({id: message.user, data: newState }, ()=>{});
+            convo.addQuestion(`Hi ${name}, Are you a student or teacher?`, function(response, convo) {
+              if((/teacher/i).test(response.text)) {
+                controller.storage.users.save({
+                  id: message.user, 
+                  data: { ...newState, isTeacher: true }}, () => {})
+              }
+              convo.next();
+            });
             convo.next();
           });
         });
