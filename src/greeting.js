@@ -1,12 +1,13 @@
 const mathQuiz = require('./math/quiz');
 const mathGenerator = require('./math/quizGenerator')
+const storage = require('./utils/storage');
 
 module.exports = function(controller) {
   controller.hears(['hi', 'hello'], 'direct_message', function (bot, message) {
-    controller.storage.users.get(message.user, function(err, userData){
-      if(userData && userData.data && userData.data.name) {
+    storage.getUserData(controller, message.user, function(err, userData){
+      if(userData && userData.name) {
         bot.startConversation(message, function(err, convo) {
-          convo.say(`Hello there ${userData.data.name}`)
+          convo.say(`Hello there ${userData.name}`)
           convo.next();
           mathQuiz(mathGenerator)(controller, bot, convo)
         });
@@ -14,19 +15,10 @@ module.exports = function(controller) {
         bot.startConversation(message, function(err, convo) {
           convo.addQuestion('Hello there, what is your name?', function(response, convo) {
             const name = response.text;
-            const newState = { 
-              ...userData, 
-              name,
-              isTeacher: false,
-            };
-            controller.storage.users.save({id: message.user, data: newState }, ()=>{});
+            storage.updateUserData(controller, message.user, {name, isTeacher: false})
             convo.addQuestion(`Hi ${name}, Are you a student or teacher?`, function(response, convo) {
               if((/teacher/i).test(response.text)) {
-                controller.storage.users.save({
-                  id: message.user, 
-                  data: { ...newState, isTeacher: true }}, () => {})
-              } else {
-                convo.next();
+                storage.updateUserData(controller, message.user, {isTeacher: true})
               }
               mathQuiz(mathGenerator)(controller, bot, convo)
             });
