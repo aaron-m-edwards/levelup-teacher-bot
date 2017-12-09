@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --require ./test-helper.js ./src/**/*.js"
   },
   "author": "",
   "license": "ISC",
@@ -14,10 +14,13 @@
     "botkit-storage-redis": "^1.1.0"
   },
   "devDependencies": {
+    "botkit-mock": "^0.1.4",
+    "chai": "^4.1.2",
     "eslint": "^4.12.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.5.1"
+    "eslint-plugin-react": "^7.5.1",
+    "mocha": "^4.0.1"
   }
 }
