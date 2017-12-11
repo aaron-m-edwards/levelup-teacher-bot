@@ -1,6 +1,6 @@
 module.exports = function(quizGenerator) {
   return function(controller, bot, convo) {
-    const quiz = quizGenerator.generate(5);
+    const quiz = quizGenerator(5);
 
     convo.say('Let\'s start a math quiz');
     convo.next();

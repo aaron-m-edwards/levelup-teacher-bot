@@ -1,9 +1,11 @@
 const mathQuiz = require('./math/quiz');
-const mathGenerator = require('./math/quizGenerator')
+const mathCreator = require('./math/quizGenerator');
 const storage = require('./utils/storage');
 
 module.exports = function(controller) {
   controller.hears(['hi', 'hello'], 'direct_message', function (bot, message) {
+    const mathGenerator = mathCreator.createGenerator(Math.random);
+
     bot.startConversation(message, function(err, convo) {
       storage.getUserData(controller, message.user, function(err, userData){
         if(userData && userData.name) {

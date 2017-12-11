@@ -15,8 +15,7 @@ describe("math quiz", () => {
   let quizGenerator;
   beforeEach(() => {
     controller = testBot.createController();
-    quizGenerator = { 
-      generate: function(){ 
+    quizGenerator = function(){ 
         return [{
           number1: 1,
           number2: 2,
@@ -27,10 +26,9 @@ describe("math quiz", () => {
           answer: 4
         }]
       }
-    }
     setUpConvo(controller, bot, quiz(quizGenerator));
     bot = testBot.spawnBot(controller);
-  })
+  });
   afterEach(() => testBot.shutdown(bot));
 
   it('should say that bot is starting math quiz', () => {
