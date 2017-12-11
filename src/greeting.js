@@ -4,15 +4,13 @@ const storage = require('./utils/storage');
 
 module.exports = function(controller) {
   controller.hears(['hi', 'hello'], 'direct_message', function (bot, message) {
-    storage.getUserData(controller, message.user, function(err, userData){
-      if(userData && userData.name) {
-        bot.startConversation(message, function(err, convo) {
+    bot.startConversation(message, function(err, convo) {
+      storage.getUserData(controller, message.user, function(err, userData){
+        if(userData && userData.name) {
           convo.say(`Hello there ${userData.name}`)
           convo.next();
           mathQuiz(mathGenerator)(controller, bot, convo)
-        });
-      } else {
-        bot.startConversation(message, function(err, convo) {
+        } else {
           convo.addQuestion('Hello there, what is your name?', function(response, convo) {
             const name = response.text;
             storage.updateUserData(controller, message.user, {name, isTeacher: false})
@@ -24,8 +22,8 @@ module.exports = function(controller) {
             });
             convo.next();
           });
-        });
-      }
+        }
+      });
     });
   });
 }
