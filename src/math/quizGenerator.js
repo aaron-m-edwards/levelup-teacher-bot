@@ -1,7 +1,7 @@
 
-function createQuestion() {
-  const number1 = Math.floor(Math.random() * 10) + 1
-  const number2 = Math.floor(Math.random() * 10) + 1
+function createQuestion(random) {
+  const number1 = Math.floor(random() * 10) + 1
+  const number2 = Math.floor(random() * 10) + 1
 
   const answer = number1 + number2;
   return {
@@ -9,14 +9,11 @@ function createQuestion() {
   }
 }
 
-function generate(number) {
-}
-
 function createGenerator(random) {
   return function(number) {
     const quiz = [];
     for(let i = 0; i < number; i++) {
-      quiz.push(createQuestion())
+      quiz.push(createQuestion(random))
     }
     return quiz;
   }
