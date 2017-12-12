@@ -11,7 +11,7 @@ module.exports = function(quizGenerator) {
 
 function askQuestion(convo, number, quiz) {
   const question = quiz[number]
-  convo.addQuestion(`Question ${number+1}: What is ${question.number1} + ${question.number2}?`, (response, convo) => {
+  convo.addQuestion(`Question ${number+1}: What is ${question.number1} ${question.sign} ${question.number2}?`, (response, convo) => {
     if (response.text === `${question.answer}`) {
       convo.say('That is correct, good job!');
       question.correctAnswer = true;
