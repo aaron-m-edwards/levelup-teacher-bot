@@ -32,38 +32,28 @@ describe("math quiz", () => {
   afterEach(() => testBot.shutdown(bot));
 
   it('should say that bot is starting math quiz', () => {
-    return testBot.sendMessage(bot, 'start')
+    return testBot.sendMessage(bot, 'start', 1)
       .then(message => expect(message.text).to.equal('Let\'s start a math quiz'));
   });
 
   it('should ask the 1st question', () => {
-    return testBot.sendMessage(bot, 'start')
-      .then(() => testBot.sendMessage(bot, ''))
+    return testBot.sendMessage(bot, 'start', 0)
       .then(message => expect(message.text).to.contain('What is 1 + 2?'));
   });
 
   it('should congratulate when answered correctly', () => {
-    return testBot.sendMessage(bot, 'start')
-      .then(() => testBot.sendMessage(bot, ''))
-      .then(() => testBot.sendMessage(bot, '3'))
+    return testBot.sendMessages(bot, ['start', 3], 1)
       .then(message => expect(message.text).to.contain('That is correct, good job!'));
 
   })
 
   it('should show the correct answer', () => {
-    return testBot.sendMessage(bot, 'start')
-      .then(() => testBot.sendMessage(bot, ''))
-      .then(() => testBot.sendMessage(bot, '4'))
+    return testBot.sendMessages(bot, ['start', 4], 1)
       .then(message => expect(message.text).to.contain('the correct answer is 3'));
   })
 
   it('should show the amout of correct answers', () => {
-    return testBot.sendMessage(bot, 'start')
-      .then(() => testBot.sendMessage(bot, ''))
-      .then(() => testBot.sendMessage(bot, '4'))
-      .then(() => testBot.sendMessage(bot, ''))
-      .then(() => testBot.sendMessage(bot, '4'))
-      .then(() => testBot.sendMessage(bot, ''))
+    return testBot.sendMessages(bot, ['start', 4, 4])
       .then(message => expect(message.text).to.contain('You got 1/2 correct'));
   })
 

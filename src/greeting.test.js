@@ -20,16 +20,14 @@ describe("greeting functions", () => {
 
     it('should respond with the given name', () => {
       const name = "Namey McName Face";
-      return testBot.sendMessage(bot, 'hi')
-        .then(() => testBot.sendMessage(bot, name))
+      return testBot.sendMessages(bot, ['hi', name])
         .then(message => {
           expect(message.text).to.contain(name);
         })
     });
 
     it('should ask if user is a teacher', () => {
-      return testBot.sendMessage(bot, 'hi')
-        .then(() => testBot.sendMessage(bot, "name"))
+      return testBot.sendMessages(bot, ['hi', 'name'])
         .then(message => {
           expect(message.text).to.contain("Are you a student or teacher?");
         })
@@ -47,9 +45,7 @@ describe("greeting functions", () => {
 
     it('should save type of user', () => {
       const name = 'a user'
-      return testBot.sendMessage(bot, 'hi')
-        .then(() => testBot.sendMessage(bot, name))
-        .then(() => testBot.sendMessage(bot, 'teacher'))
+      return testBot.sendMessages(bot, ['hi', name, 'teacher'])
         .then(() => testBot.getUserState(controller))
         .then(userState => {
           expect(userState.data.isTeacher).to.be.true;
@@ -60,7 +56,7 @@ describe("greeting functions", () => {
   describe('for a returning user', () => {
     it('should greet the user by name', () => {
       testBot.setUserState(controller, {id: 'test user', data: { name: 'some person'} });
-      return testBot.sendMessage(bot, 'hi')
+      return testBot.sendMessage(bot, 'hi', 1)
         .then(message => {
           expect(message.text).to.contain('Hello there');
           expect(message.text).to.contain('some person');
